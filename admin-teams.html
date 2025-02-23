@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Kelola Tim</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ... (style dasar sama seperti admin-dashboard.html) ... */
+
+        /* Tambahan style untuk manajemen tim */
+        .team-filters {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-select {
+            padding: 10px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--light);
+            outline: none;
+        }
+
+        .filter-select option {
+            background: var(--dark);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .team-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary);
+            padding: 20px;
+            position: relative;
+        }
+
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+        }
+
+        .team-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .team-info {
+            margin-bottom: 15px;
+        }
+
+        .team-name {
+            color: var(--primary);
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .team-details {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .team-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--darker);
+            padding: 30px;
+            border: 2px solid var(--primary);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--light);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--light);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar (sama seperti dashboard) -->
+        <div class="sidebar">
+            <div class="admin-logo">
+                Admin Panel
+            </div>
+            <a href="admin-dashboard.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                Dashboard
+            </a>
+            <a href="admin-teams.html" class="menu-item active">
+                <i class="fas fa-users"></i>
+                Tim
+            </a>
+            <a href="admin-schedule.html" class="menu-item">
+                <i class="fas fa-calendar"></i>
+                Jadwal
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                Turnamen
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                Pengaturan
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="welcome-text">Kelola Tim</div>
+                <button class="logout-btn">Logout</button>
+            </div>
+
+            <!-- Team Management -->
+            <div class="content-section">
+                <div class="team-filters">
+                    <select class="filter-select" id="gameFilter">
+                        <option value="all">Semua Game</option>
+                        <option value="mlbb">Mobile Legends</option>
+                        <option value="pubg">PUBG Mobile</option>
+                        <option value="pes">PES 2021</option>
+                    </select>
+                    <button class="action-btn" onclick="showAddTeamModal()">+ Tambah Tim Baru</button>
+                </div>
+
+                <div class="team-grid">
+                    <!-- Team cards will be dynamically added here -->
+                    <div class="team-card">
+                        <div class="team-logo">
+                            <img src="assets/logos/rrq.png" alt="RRQ">
+                        </div>
+                        <div class="team-info">
+                            <div class="team-name">RRQ</div>
+                            <div class="team-details">Game: Mobile Legends</div>
+                            <div class="team-details">Jumlah Pemain: 6</div>
+                        </div>
+                        <div class="team-actions">
+                            <button class="edit-btn" onclick="showEditTeamModal(1)">Edit</button>
+                            <button class="delete-btn" onclick="confirmDelete(1)">Hapus</button>
+                        </div>
+                    </div>
+                    <!-- More team cards... -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Team Modal -->
+    <div class="modal" id="teamModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Tambah Tim Baru</h2>
+            <form id="teamForm">
+                <div class="form-group">
+                    <label>Nama Tim</label>
+                    <input type="text" name="teamName" required>
+                </div>
+                <div class="form-group">
+                    <label>Game</label>
+                    <select name="game" required>
+                        <option value="mlbb">Mobile Legends</option>
+                        <option value="pubg">PUBG Mobile</option>
+                        <option value="pes">PES 2021</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Logo Tim</label>
+                    <input type="file" name="logo" accept="image/*">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="action-btn" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="action-btn">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function showAddTeamModal() {
+            document.getElementById('teamModal').style.display = 'flex';
+        }
+
+        function showEditTeamModal(teamId) {
+            // Populate form with team data
+            document.getElementById('teamModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('teamModal').style.display = 'none';
+        }
+
+        function confirmDelete(teamId) {
+            if(confirm('Apakah Anda yakin ingin menghapus tim ini?')) {
+                // Delete team logic
+            }
+        }
+
+        // Form submission
+        document.getElementById('teamForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Handle form submission
+            closeModal();
+        });
+
+        // Filter functionality
+        document.getElementById('gameFilter').addEventListener('change', function(e) {
+            // Filter teams based on selected game
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ffff;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --light: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark);
+            font-family: 'Industry', 'Rajdhani', sans-serif;
+            color: var(--light);
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: var(--darker);
+            padding: 20px;
+            border-right: 2px solid var(--primary);
+        }
+
+        .admin-logo {
+            color: var(--primary);
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .menu-item {
+            padding: 15px;
+            color: var(--light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .menu-item i {
+            width: 20px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .welcome-text {
+            font-size: 1.5em;
+            color: var(--primary);
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--primary);
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .card-title {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .card-value {
+            font-size: 2em;
+            color: var(--light);
+        }
+
+        /* Content Management Section */
+        .content-section {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary);
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--light);
+            transform: translateY(-2px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        th {
+            color: var(--primary);
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .delete-btn {
+            background: #ff4444;
+            color: var(--light);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="admin-logo">
+                Admin Panel
+            </div>
+            <a href="#" class="menu-item active">
+                <i class="fas fa-home"></i>
+                Dashboard
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-users"></i>
+                Tim
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-calendar"></i>
+                Jadwal
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-trophy"></i>
+                Turnamen
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                Pengaturan
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="welcome-text">Selamat Datang, Admin</div>
+                <button class="logout-btn" onclick="window.location.href='login-admin.html'">Logout</button>
+            </div>
+
+            <!-- Dashboard Overview -->
+            <div class="dashboard-cards">
+                <div class="card">
+                    <div class="card-title">Total Tim</div>
+                    <div class="card-value">45</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Turnamen Aktif</div>
+                    <div class="card-value">3</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Total Pemain</div>
+                    <div class="card-value">225</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Pertandingan Hari Ini</div>
+                    <div class="card-value">8</div>
+                </div>
+            </div>
+
+            <!-- Content Management -->
+            <div class="content-section">
+                <div class="section-title">Kelola Turnamen</div>
+                <button class="action-btn">+ Tambah Turnamen Baru</button>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama Turnamen</th>
+                            <th>Game</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mobile Legends Championship</td>
+                            <td>MLBB</td>
+                            <td>25 Mei 2025</td>
+                            <td>Akan Datang</td>
+                            <td>
+                                <button class="edit-btn">Edit</button>
+                                <button class="delete-btn">Hapus</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PUBG Mobile Pro League</td>
+                            <td>PUBG</td>
+                            <td>1 Juni 2025</td>
+                            <td>Akan Datang</td>
+                            <td>
+                                <button class="edit-btn">Edit</button>
+                                <button class="delete-btn">Hapus</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PES Championship</td>
+                            <td>PES 2021</td>
+                            <td>10 Juni 2025</td>
+                            <td>Akan Datang</td>
+                            <td>
+                                <button class="edit-btn">Edit</button>
+                                <button class="delete-btn">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logout function
+        document.querySelector('.logout-btn').addEventListener('click', function() {
+            window.location.href = 'login-admin.html';
+        });
+
+        // Menu item active state
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.menu-item.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html> 

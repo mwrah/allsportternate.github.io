@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turnamen All Sport Ternate</title>
+    <style>
+        :root {
+            --primary: #00ffff;
+            --secondary: #ff00ff;
+            --accent: #ffff00;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --light: #ffffff;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        body {
+            margin: 0;
+            padding-top: 70px;
+            background-color: var(--dark);
+            font-family: 'Industry', 'Rajdhani', sans-serif;
+            color: var(--light);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 60%),
+                linear-gradient(45deg, rgba(255, 0, 255, 0.05) 25%, transparent 25%);
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            background: var(--darker);
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .navbar a {
+            color: var(--light);
+            text-decoration: none;
+            padding: 12px 30px;
+            margin-left: 20px;
+            background: var(--dark);
+            border: 2px solid var(--primary);
+            border-radius: 0px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.2s ease;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .navbar a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+
+        .navbar a:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            margin: 20px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            z-index: -1;
+            border-radius: 12px;
+        }
+
+        .hero-title {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: var(--light);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            animation: pulse 2s infinite;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5),
+                        0 0 40px rgba(255, 0, 255, 0.3);
+            -webkit-text-fill-color: var(--light);
+            background: none;
+            -webkit-background-clip: unset;
+        }
+
+        .hero-subtitle {
+            color: var(--light);
+            font-size: 1.5em;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .tournament-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .tournament-card {
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(0, 255, 255, 0.2));
+            border: 2px solid var(--primary);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .tournament-name {
+            color: var(--primary);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .detail-label {
+            color: var(--light);
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        .detail-value {
+            color: var(--light);
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .status-open {
+            color: var(--light);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .tournament-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .tournament-status {
+            display: inline-block;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tournament-title {
+            font-size: 1.8em;
+            color: var(--light);
+            margin: 15px 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .tournament-info {
+            color: #aaa;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .tournament-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .detail-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5em;
+            }
+            
+            .tournament-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tournament-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tournament-card {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tournament-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .tournament-content {
+            height: 100%;
+        }
+
+        .tournament-subtitle {
+            color: var(--light);
+            font-size: 1.5em;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .news-date {
+            color: var(--light);
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .news-title {
+            color: var(--primary);
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .news-excerpt {
+            color: var(--light);
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">Beranda</a>
+        <a href="jadwal.html">Jadwal</a>
+        <a href="tim.html">Tim</a>
+        <a href="statistik.html">Statistik</a>
+        <a href="kontak.html">Kontak</a>
+    </div>
+
+    <div class="content">
+        <div class="hero-section">
+            <h1 class="hero-title">Turnamen All Sport Ternate</h1>
+            <p class="hero-subtitle">Kompetisi Esport & Gaming Terbesar Kota Ternate 2025</p>
+        </div>
+
+        <div class="tournament-grid">
+            <div class="tournament-card">
+                <a href="mlbb-championship.html" class="tournament-link">
+                    <div class="tournament-content">
+                        <h3 class="tournament-name">Mobile Legends Championship Ternate 2025</h3>
+                        <div class="tournament-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Hadiah</div>
+                                <div class="detail-value">Rp 50.000.000</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Slot</div>
+                                <div class="detail-value">16 Tim</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value status-open">AKAN DATANG</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="tournament-card">
+                <a href="pubg-championship.html" class="tournament-link">
+                    <div class="tournament-content">
+                        <h3 class="tournament-name">PUBG Mobile Pro League 2025</h3>
+                        <div class="tournament-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Hadiah</div>
+                                <div class="detail-value">Rp 75.000.000</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Slot</div>
+                                <div class="detail-value">20 Tim</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value status-open">AKAN DATANG</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="tournament-card">
+                <a href="pes-championship.html" class="tournament-link">
+                    <div class="tournament-content">
+                        <h3 class="tournament-name">PlayStation PES 2021 Championship 2025</h3>
+                        <div class="tournament-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Hadiah</div>
+                                <div class="detail-value">Rp 25.000.000</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Slot</div>
+                                <div class="detail-value">32 Pemain</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Status</div>
+                                <div class="detail-value status-open">AKAN DATANG</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
